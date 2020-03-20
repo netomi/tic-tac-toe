@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020 Thomas Neidhart
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="gameViewModel"
+            type="org.netomi.tictactoe.viewmodel.GameViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20px"
+            android:layout_marginRight="20px"
+            android:stretchColumns="*">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/player1_text"
+                    style="@style/TextAppearance.AppCompat.Headline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_gravity="start"
+                    android:layout_weight="0.33"
+                    android:text="@string/player1_name" />
+
+                <TextView
+                    android:id="@+id/draw_text"
+                    style="@style/TextAppearance.AppCompat.Headline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_weight="0.33"
+                    android:layout_gravity="center"
+                    android:text="@string/draw_text" />
+
+                <TextView
+                    android:id="@+id/player2_text"
+                    style="@style/TextAppearance.AppCompat.Headline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:layout_gravity="end"
+                    android:layout_weight="0.33"
+                    android:text="@string/player2_name" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <TextView
+                    android:id="@+id/player1_score"
+                    style="@style/TextAppearance.AppCompat.Headline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_gravity="start"
+                    android:layout_weight="0.33"
+                    android:text="@{String.valueOf(gameViewModel.player1Score)}" />
+
+                <TextView
+                    android:id="@+id/draw_score"
+                    style="@style/TextAppearance.AppCompat.Headline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.33"
+                    android:text="@{String.valueOf(gameViewModel.drawScore)}" />
+
+                <TextView
+                    android:id="@+id/player2_score"
+                    style="@style/TextAppearance.AppCompat.Headline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:layout_gravity="end"
+                    android:layout_weight="0.33"
+                    android:text="@{String.valueOf(gameViewModel.player2Score)}" />
+            </TableRow>
+
+
+        </TableLayout>
+
+        <androidx.gridlayout.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:padding="32dp"
+        app:columnCount="3"
+        app:rowCount="3">
+
+
+        <ImageView
+            android:id="@+id/cell_11"
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            android:background="@drawable/cell_11_bg"
+            android:onClick="@{() -> gameViewModel.onClickedCellAt(1, 1)}"
+
+            android:src='@{gameViewModel.cells["11"]}'
+            app:layout_column="0"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill"
+            app:layout_row="0"
+            app:layout_rowWeight="1" />
+
+        <ImageView
+            android:id="@+id/cell_12"
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            android:background="@drawable/cell_12_bg"
+            android:onClick="@{() -> gameViewModel.onClickedCellAt(1, 2)}"
+            android:src='@{gameViewModel.cells["12"]}'
+
+            app:layout_column="1"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill"
+            app:layout_row="0"
+            app:layout_rowWeight="1" />
+
+        <ImageView
+            android:id="@+id/cell_13"
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            android:background="@drawable/cell_13_bg"
+            android:onClick="@{() -> gameViewModel.onClickedCellAt(1, 3)}"
+            android:src='@{gameViewModel.cells["13"]}'
+
+            app:layout_column="2"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill"
+            app:layout_row="0"
+            app:layout_rowWeight="1" />
+
+        <ImageView
+            android:id="@+id/cell_21"
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            android:background="@drawable/cell_21_bg"
+            android:onClick="@{() -> gameViewModel.onClickedCellAt(2, 1)}"
+            android:src='@{gameViewModel.cells["21"]}'
+
+            app:layout_column="0"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill"
+            app:layout_row="1"
+            app:layout_rowWeight="1" />
+
+        <ImageView
+            android:id="@+id/cell_22"
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            android:background="@drawable/cell_22_bg"
+            android:onClick="@{() -> gameViewModel.onClickedCellAt(2, 2)}"
+            android:src='@{gameViewModel.cells["22"]}'
+
+            app:layout_column="1"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill"
+            app:layout_row="1"
+            app:layout_rowWeight="1" />
+
+        <ImageView
+            android:id="@+id/cell_23"
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            android:background="@drawable/cell_23_bg"
+            android:onClick="@{() -> gameViewModel.onClickedCellAt(2, 3)}"
+
+            android:src='@{gameViewModel.cells["23"]}'
+            app:layout_column="2"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill"
+            app:layout_row="1"
+            app:layout_rowWeight="1" />
+
+        <ImageView
+            android:id="@+id/cell_31"
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            android:background="@drawable/cell_31_bg"
+            android:onClick="@{() -> gameViewModel.onClickedCellAt(3, 1)}"
+            android:src='@{gameViewModel.cells["31"]}'
+
+            app:layout_column="0"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill"
+            app:layout_row="2"
+            app:layout_rowWeight="1" />
+
+        <ImageView
+            android:id="@+id/cell_32"
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            android:background="@drawable/cell_32_bg"
+            android:onClick="@{() -> gameViewModel.onClickedCellAt(3, 2)}"
+            android:src='@{gameViewModel.cells["32"]}'
+
+            app:layout_column="1"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill"
+            app:layout_row="2"
+            app:layout_rowWeight="1" />
+
+        <ImageView
+            android:id="@+id/cell_33"
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            android:background="@drawable/cell_33_bg"
+            android:onClick="@{() -> gameViewModel.onClickedCellAt(3, 3)}"
+            android:src='@{gameViewModel.cells["33"]}'
+
+            app:layout_column="2"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill"
+            app:layout_row="2"
+            app:layout_rowWeight="1" />
+
+        </androidx.gridlayout.widget.GridLayout>
+    </LinearLayout>
+</layout>

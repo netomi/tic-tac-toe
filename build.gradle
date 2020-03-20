@@ -1,0 +1,35 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+apply from: 'dependencies.gradle'
+
+buildscript {
+    apply from: 'dependencies.gradle'
+
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        // See dependencies.gradle for declaration of plugins.
+        classpath gradlePlugins.android
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://jitpack.io"}
+    }
+
+    // Workaround to prevent Gradle from stealing focus from other apps during tests run/etc.
+    // https://gist.github.com/artem-zinnatullin/4c250e04636e25797165
+    tasks.withType(JavaForkOptions) {
+        jvmArgs '-Djava.awt.headless=true'
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

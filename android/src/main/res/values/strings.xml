@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Tic Tac Toe</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="player1_name">Human</string>
+    <string name="player2_name">Computer</string>
+    <string name="draw_text">Draw</string>
+</resources>

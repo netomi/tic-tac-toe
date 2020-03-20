@@ -1,0 +1,49 @@
+ext.versions = [
+        code                         : 1,
+        name                         : '1.0',
+
+        minSdk                       : 16,
+        targetSdk                    : 29,
+        compileSdk                   : 29,
+        buildTools                   : '29.0.2',
+
+        androidGradlePlugin          : '3.6.1',
+
+        rxJava                       : '2.2.18',
+        rxAndroid                    : '2.1.1',
+
+        appCompat                    : '1.1.0',
+        gridLayout                   : '1.0.0',
+        fragment                     : '1.2.3',
+
+        junit                        : '4.12',
+        supportTestRunner            : '0.5',
+        espresso                     : '2.2.1',
+]
+
+ext.gradlePlugins = [
+        android                 : "com.android.tools.build:gradle:$versions.androidGradlePlugin",
+]
+
+ext.libraries = [
+        rxJava                  : buildDependency('io.reactivex.rxjava2', 'rxjava', versions.rxJava),
+        rxAndroid               : buildDependency('io.reactivex.rxjava2', 'rxandroid', versions.rxAndroid),
+
+        // androidx
+        appCompat               : buildDependency('androidx.appcompat',  'appcompat', versions.appCompat),
+        gridLayout              : buildDependency('androidx.gridlayout', 'gridlayout', versions.gridLayout),
+        fragment                : buildDependency('androidx.fragment',   'fragment', versions.fragment),
+]
+
+ext.testLibraries = [
+        junit                   : buildDependency('junit', 'junit', versions.junit),
+
+        espressoCore            : 'androidx.test.espresso:espresso-core:3.2.0',
+        testRunner              : 'androidx.test:runner:1.2.0',
+        testRules               : 'androidx.test:rules:1.2.0',
+        testExtJunit            : 'androidx.test.ext:junit:1.1.1'
+]
+
+static String buildDependency(String pack, String dependency, String version) {
+    return "${pack}:${dependency}:${version}"
+}
