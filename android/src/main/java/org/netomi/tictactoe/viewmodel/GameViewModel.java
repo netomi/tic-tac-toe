@@ -68,24 +68,20 @@ public class GameViewModel extends ViewModel {
         disposables.add(game.getGameEvents()
                             .filter(GameEvent.only(GameEvent.EventType.MADE_MOVE))
                             .cast(GameEvent.MadeMoveEvent.class)
-                            .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(this::madeMove));
 
         disposables.add(game.getGameEvents()
                             .filter(GameEvent.only(GameEvent.EventType.BOARD_CLEARED))
-                            .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(this::clearBoard));
 
         disposables.add(game.getGameEvents()
                             .filter(GameEvent.only(GameEvent.EventType.PLAYER_SWITCHED))
                             .cast(GameEvent.PlayerSwitchedEvent.class)
-                            .observeOn(Schedulers.computation())
                             .subscribe(this::switchPlayer));
 
         disposables.add(game.getGameEvents()
                             .filter(GameEvent.only(GameEvent.EventType.GAME_FINISHED))
                             .cast(GameEvent.GameFinishedEvent.class)
-                            .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(this::gameFinished));
 
         game.reset();
