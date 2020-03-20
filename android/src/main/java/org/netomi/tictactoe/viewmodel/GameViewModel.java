@@ -15,7 +15,6 @@
  */
 package org.netomi.tictactoe.viewmodel;
 
-import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
@@ -32,13 +31,10 @@ import org.netomi.tictactoe.model.Game;
 import org.netomi.tictactoe.model.GameEvent;
 import org.netomi.tictactoe.model.Player;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class GameViewModel extends ViewModel {
-
-    private static final String TAG = "GameViewModel";
 
     // observable map accessed by fragment_game.xml
     public final ObservableArrayMap<String, Integer> cells;
@@ -66,23 +62,7 @@ public class GameViewModel extends ViewModel {
         disposables = new CompositeDisposable();
 
         disposables.add(game.getGameEvents()
-                            .filter(GameEvent.only(GameEvent.EventType.MADE_MOVE))
-                            .cast(GameEvent.MadeMoveEvent.class)
-                            .subscribe(this::madeMove));
-
-        disposables.add(game.getGameEvents()
-                            .filter(GameEvent.only(GameEvent.EventType.BOARD_CLEARED))
-                            .subscribe(this::clearBoard));
-
-        disposables.add(game.getGameEvents()
-                            .filter(GameEvent.only(GameEvent.EventType.PLAYER_SWITCHED))
-                            .cast(GameEvent.PlayerSwitchedEvent.class)
-                            .subscribe(this::switchPlayer));
-
-        disposables.add(game.getGameEvents()
-                            .filter(GameEvent.only(GameEvent.EventType.GAME_FINISHED))
-                            .cast(GameEvent.GameFinishedEvent.class)
-                            .subscribe(this::gameFinished));
+                            .subscribe(this::handleGameEvent));
 
         game.reset();
     }
@@ -94,6 +74,15 @@ public class GameViewModel extends ViewModel {
         disposables.clear();
     }
 
+    public void onClickedCellAt(int row, int column) {
+        if (game.getCurrentPlayer() == human) {
+            Timber.d("Clicked at cell (" + row + "/" + column + ")");
+            if (!game.hasFinished() && game.isCellEmpty(row, column)) {
+                game.makeMove(row, column);
+            }
+        }
+    }
+    
     public String getWinner() {
         Player winner = game.getWinner();
 
@@ -115,8 +104,28 @@ public class GameViewModel extends ViewModel {
         return gameFinished;
     }
 
+    private void handleGameEvent(GameEvent event) {
+        switch (event.getEventType()) {
+            case BOARD_CLEARED:
+                clearBoard(event);
+                break;
+
+            case PLAYER_SWITCHED:
+                switchPlayer((GameEvent.PlayerSwitchedEvent) event);
+                break;
+
+            case MADE_MOVE:
+                madeMove((GameEvent.MadeMoveEvent) event);
+                break;
+
+            case GAME_FINISHED:
+                gameFinished((GameEvent.GameFinishedEvent) event);
+                break;
+        }
+    }
+
     private void gameFinished(GameEvent.GameFinishedEvent event) {
-        Log.d(TAG, "game finished, winner = " + event.getWinner());
+        Timber.d("game finished, winner = " + event.getWinner());
 
         gameFinished.setValue(true);
 
@@ -130,7 +139,7 @@ public class GameViewModel extends ViewModel {
     }
 
     private void switchPlayer(GameEvent.PlayerSwitchedEvent event) {
-        Log.d(TAG, "switching player, new player = " + event.getPlayer());
+        Timber.d("switching player, new player = " + event.getPlayer());
 
         if (event.getPlayer() == Player.PLAYER_2) {
             AIPlayer.Move move = computer.getMove(game.getBoard(), Player.PLAYER_2);
@@ -140,13 +149,13 @@ public class GameViewModel extends ViewModel {
     }
 
     private void clearBoard(GameEvent event) {
-        Log.d(TAG, "board cleared");
+        Timber.d("board cleared");
 
         cells.clear();
     }
 
     private void madeMove(GameEvent.MadeMoveEvent event) {
-        Log.d(TAG, "player " + event.getPlayer() + " made move (" + event.getRow() + ", " + event.getColumn() + ")");
+        Timber.d("player " + event.getPlayer() + " made move (" + event.getRow() + ", " + event.getColumn() + ")");
 
         int drawableResource = event.getPlayer() == Player.PLAYER_1 ? R.drawable.x : R.drawable.o;
         cells.put(cellIdFromRowColumn(event.getRow(), event.getColumn()), drawableResource);
@@ -155,15 +164,6 @@ public class GameViewModel extends ViewModel {
     @BindingAdapter({"android:src"})
     public static void setImageViewResource(ImageView imageView, int resource) {
         imageView.setImageResource(resource);
-    }
-
-    public void onClickedCellAt(int row, int column) {
-        if (game.getCurrentPlayer() == human) {
-            Log.i(TAG, "Clicked at cell (" + row + "/" + column + ")");
-            if (!game.hasFinished() && game.isCellEmpty(row, column)) {
-                game.makeMove(row, column);
-            }
-        }
     }
 
     private static String cellIdFromRowColumn(int row, int column) {
