@@ -16,6 +16,8 @@ ext.versions = [
         gridLayout                   : '1.0.0',
         fragment                     : '1.2.3',
 
+        timber                       : '4.7.1',
+
         junit                        : '4.12',
         supportTestRunner            : '0.5',
         espresso                     : '2.2.1',
@@ -33,6 +35,8 @@ ext.libraries = [
         appCompat               : buildDependency('androidx.appcompat',  'appcompat', versions.appCompat),
         gridLayout              : buildDependency('androidx.gridlayout', 'gridlayout', versions.gridLayout),
         fragment                : buildDependency('androidx.fragment',   'fragment', versions.fragment),
+
+        timber                  : buildDependency('com.jakewharton.timber', 'timber', versions.timber)
 ]
 
 ext.testLibraries = [

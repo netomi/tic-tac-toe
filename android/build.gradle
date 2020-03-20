@@ -94,6 +94,8 @@ dependencies {
     implementation libraries.gridLayout
     implementation libraries.fragment
 
+    implementation libraries.timber
+
     testImplementation testLibraries.junit
 
     androidTestImplementation testLibraries.espressoCore
